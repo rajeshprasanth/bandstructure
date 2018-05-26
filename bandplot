@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+#
+
+
+while getopts ":b:k:o:" opts; do
+	case "${opts}" in 
+		b)
+			BAND_FILE=${OPTARG}
+			;;
+		k)
+			KPATH_FILE=${OPTARG}
+			;;
+		o)
+BAND_FILE=$1
+KPATH_FILE=$2
+OUTPUT_FILE=$3
+
+xmin=`gawk {'print $1'} $BAND_FILE |sort -g|head -n 1`
+xmax=`gawk {'print $1'} $BAND_FILE |sort -g|tail -n 1`
+ymin=`gawk {'print $2'} $BAND_FILE |sort -g|head -n 1`
+ymax=`gawk {'print $2'} $BAND_FILE |sort -g|tail -n 1`
+
+
+cat >> bandstructure-plot.plt<< EOF
+#-----------------#
+# Axis properties #
+#-----------------#
+xmin = $xmin; xmax = $xmax; 
+ymin = $ymin; ymax = $ymax;
+
+EOF
+
+
+
+echo $xmin,$xmax
+echo $ymin,$ymax
